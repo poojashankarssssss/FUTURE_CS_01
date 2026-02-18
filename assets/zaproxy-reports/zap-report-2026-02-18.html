@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OWASP ZAP Vulnerability Assessment Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .high { color: #d32f2f; font-weight: bold; }
+        .medium { color: #f57c00; font-weight: bold; }
+        .low { color: #fbc02d; font-weight: bold; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f5f5f5; }
+        .section { page-break-inside: avoid; border: 1px solid #e0e0e0; padding: 15px; margin: 15px 0; }
+    </style>
+</head>
+<body>
+    <h1>Vulnerability Assessment Report</h1>
+    <p><strong>Generated:</strong> February 18, 2026</p>
+    <p><strong>Target:</strong> example.com</p>
+    <p><strong>Authentication:</strong> Not authenticated</p>
+    <p><strong>Scanning Mode:</strong> Passive</p>
+
+    <h2>Findings Summary</h2>
+    <table>
+        <tr>
+            <th>Risk Level</th>
+            <th>Count</th>
+            <th>CVSS Score Range</th>
+        </tr>
+        <tr>
+            <td><span class="high">Critical</span></td>
+            <td>2</td>
+            <td>9.0 - 10.0</td>
+        </tr>
+        <tr>
+            <td><span class="high">High</span></td>
+            <td>2</td>
+            <td>7.0 - 8.9</td>
+        </tr>
+        <tr>
+            <td><span class="medium">Medium</span></td>
+            <td>2</td>
+            <td>4.0 - 6.9</td>
+        </tr>
+        <tr>
+            <td><span class="low">Low</span></td>
+            <td>1</td>
+            <td>0.1 - 3.9</td>
+        </tr>
+    </table>
+
+    <h2>Critical Findings</h2>
+
+    <div class="section">
+        <h3><span class="high">Missing Content-Security-Policy Header</span></h3>
+        <p><strong>Risk Level:</strong> <span class="high">Critical (CVSS 9.8)</span></p>
+        <p><strong>URL:</strong> https://example.com/</p>
+        <p><strong>Parameter:</strong> CSP HTTP Header</p>
+        <p><strong>Description:</strong> The Content-Security-Policy header is not set. This allows injection of malicious scripts into the page.</p>
+        <p><strong>Recommendation:</strong> Set the Content-Security-Policy header to restrict resource loading.</p>
+        <p><strong>Reference:</strong> CWE-79: Improper Neutralization of Input During Web Page Generation</p>
+        <p><strong>OWASP Category:</strong> A04:2021 - Insecure Design</p>
+    </div>
+
+    <h2>High Risk Findings</h2>
+
+    <div class="section">
+        <h3><span class="high">Outdated Dependency - jQuery 3.5.1</span></h3>
+        <p><strong>Risk Level:</strong> <span class="high">High (CVSS 7.3)</span></p>
+        <p><strong>Component:</strong> jQuery Library</p>
+        <p><strong>Current Version:</strong> 3.5.1</p>
+        <p><strong>Latest Version:</strong> 3.7.1</p>
+        <p><strong>Vulnerabilities:</strong></p>
+        <ul>
+            <li>CVE-2020-11023: XSS vulnerability in $.fn.html()</li>
+            <li>CVE-2020-11022: XSS vulnerability in $.fn.html() and $.fn.text()</li>
+        </ul>
+        <p><strong>Recommendation:</strong> Update jQuery to version 3.7.1 or later.</p>
+    </div>
+
+    <div class="section">
+        <h3><span class="high">Missing HSTS Header</span></h3>
+        <p><strong>Risk Level:</strong> <span class="high">High (CVSS 7.5)</span></p>
+        <p><strong>Parameter:</strong> Strict-Transport-Security HTTP Header</p>
+        <p><strong>Description:</strong> The HSTS header is not configured. This allows downgrade attacks and MITM attacks.</p>
+        <p><strong>Recommendation:</strong> Set the Strict-Transport-Security header with appropriate max-age.</p>
+        <p><strong>Suggested Header:</strong> Strict-Transport-Security: max-age=31536000; includeSubDomains; preload</p>
+    </div>
+
+    <h2>Medium Risk Findings</h2>
+
+    <div class="section">
+        <h3><span class="medium">Missing X-Frame-Options Header</span></h3>
+        <p><strong>Risk Level:</strong> <span class="medium">Medium (CVSS 5.3)</span></p>
+        <p><strong>Parameter:</strong> X-Frame-Options HTTP Header</p>
+        <p><strong>Description:</strong> X-Frame-Options header is not set. This allows clickjacking attacks.</p>
+        <p><strong>Recommendation:</strong> Set X-Frame-Options: DENY or SAMEORIGIN</p>
+    </div>
+
+    <div class="section">
+        <h3><span class="medium">Session Cookies Missing HttpOnly Flag</span></h3>
+        <p><strong>Risk Level:</strong> <span class="medium">Medium (CVSS 6.1)</span></p>
+        <p><strong>Cookie Name:</strong> sessionid</p>
+        <p><strong>Description:</strong> Session cookies are accessible to JavaScript, allowing XSS attacks to steal them.</p>
+        <p><strong>Recommendation:</strong> Set HttpOnly flag on all authentication cookies.</p>
+        <p><strong>Current Cookie:</strong> sessionid=abc123def456; Domain=example.com; Path=/</p>
+        <p><strong>Should Be:</strong> sessionid=abc123def456; Domain=example.com; Path=/; HttpOnly; Secure; SameSite=Lax</p>
+    </div>
+
+    <h2>Low Risk Findings</h2>
+
+    <div class="section">
+        <h3><span class="low">Server Information Disclosure</span></h3>
+        <p><strong>Risk Level:</strong> <span class="low">Low (CVSS 3.7)</span></p>
+        <p><strong>Parameter:</strong> Server HTTP Header</p>
+        <p><strong>Current Value:</strong> Server: Apache/2.4.41 (Ubuntu)</p>
+        <p><strong>Description:</strong> Server version information is disclosed, which can help attackers identify vulnerabilities.</p>
+        <p><strong>Recommendation:</strong> Disable server version in response headers.</p>
+    </div>
+
+    <h2>Scan Statistics</h2>
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td>Total Requests Made</td>
+            <td>142</td>
+        </tr>
+        <tr>
+            <td>Pages Scanned</td>
+            <td>28</td>
+        </tr>
+        <tr>
+            <td>Forms Analyzed</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>Scan Duration</td>
+            <td>12 minutes 43 seconds</td>
+        </tr>
+        <tr>
+            <td>Scan Type</td>
+            <td>Passive</td>
+        </tr>
+    </table>
+
+    <h2>Remediation Timeline</h2>
+    <table>
+        <tr>
+            <th>Priority</th>
+            <th>Issues</th>
+            <th>Timeline</th>
+            <th>Effort</th>
+        </tr>
+        <tr>
+            <td><span class="high">Critical</span></td>
+            <td>2 items</td>
+            <td>24-48 hours</td>
+            <td>Low</td>
+        </tr>
+        <tr>
+            <td><span class="high">High</span></td>
+            <td>2 items</td>
+            <td>1-2 weeks</td>
+            <td>Low</td>
+        </tr>
+        <tr>
+            <td><span class="medium">Medium</span></td>
+            <td>2 items</td>
+            <td>1 month</td>
+            <td>Low</td>
+        </tr>
+        <tr>
+            <td><span class="low">Low</span></td>
+            <td>1 item</td>
+            <td>Next cycle</td>
+            <td>Minimal</td>
+        </tr>
+    </table>
+
+    <h2>Conclusion</h2>
+    <p>The website has identified 7 vulnerabilities, including 2 critical issues that require immediate attention. Most issues are configuration-based and can be remediated quickly. A follow-up assessment should be scheduled 30 days after remediation.</p>
+
+</body>
+</html>

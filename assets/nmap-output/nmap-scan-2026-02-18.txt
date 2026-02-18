@@ -1,0 +1,90 @@
+Starting Nmap 7.93 ( https://nmap.org ) at 2026-02-18 10:23 EST
+Nmap scan report for example.com (203.0.113.42)
+Host is up (0.032s latency).
+rDNS record for 203.0.113.42: web.example.com
+
+PORT    STATE SERVICE VERSION
+22/tcp  open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+80/tcp  open  http    Apache httpd 2.4.41 ((Ubuntu))
+443/tcp open  https   Apache httpd 2.4.41 ((Ubuntu))
+
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+=== SERVICE DETECTION RESULTS ===
+
+Port 80/tcp (HTTP):
+- Server: Apache/2.4.41 (Ubuntu)
+- Powered-By: PHP/7.4.3
+- Detected Technologies: 
+  * jQuery 3.5.1
+  * Bootstrap 4.6.0
+  * PHP 7.4.3
+
+Port 443/tcp (HTTPS):
+- Server: Apache/2.4.41 (Ubuntu)
+- SSL/TLS: TLSv1.2, TLSv1.3 supported
+- Certificate: Valid (example.com)
+- Powered-By: PHP/7.4.3
+
+=== VULNERABILITY SCAN RESULTS ===
+
+Host script results:
+| http-server-header: Apache/2.4.41 (Ubuntu)
+| http-powered-by: PHP/7.4.3
+| http-title: Welcome - Example.com
+| ssl-date: 2026-02-18T15:23:42+00:00; 0s from scanner time.
+
+Nmap done at 2026-02-18 10:25 EST, 1 IP address (1 host up) scanned in 2.15 seconds
+
+=== DETAILED PORT ANALYSIS ===
+
+PORT 80/tcp (HTTP):
+- Server: Apache/2.4.41
+- Server information DISCLOSED - version enumerable
+- No SSL redirect configured
+- Recommendation: Implement permanent redirect to HTTPS
+
+PORT 443/tcp (HTTPS):
+- TLS 1.2 and 1.3 properly configured
+- Certificate is valid and properly signed
+- No weak ciphers detected
+- Recommendation: Keep TLS configuration as-is
+
+=== ADDITIONAL FINDINGS ===
+
+Open Ports Found:
+- SSH (22): Used for administration, properly restricted
+- HTTP (80): Public web service, redirects to HTTPS
+- HTTPS (443): Public web service on secure channel
+
+Closed Ports (sample):
+- 25 (SMTP)
+- 53 (DNS)
+- 3306 (MySQL)
+- 5432 (PostgreSQL)
+
+Service Versions Detected:
+- OpenSSH 7.6p1 - Current version, no known CVEs
+- Apache 2.4.41 - Some security advisories available
+- PHP 7.4.3 - Multiple critical advisories (consider upgrading to PHP 8.x)
+
+=== RECOMMENDATIONS ===
+
+1. DISABLE SERVER VERSION DISCLOSURE
+   - Suppress Apache version in headers
+   - Remove X-Powered-By header revealing PHP version
+
+2. UPDATE SERVER SOFTWARE
+   - Consider PHP 8.0+ for better security
+   - Review Apache security advisories
+
+3. CONFIGURE SECURITY HEADERS
+   - HSTS not detected
+   - CSP not detected
+   - X-Frame-Options not detected
+
+4. MONITOR OPEN PORTS
+   - Current configuration appears minimal
+   - Keep only necessary services active
+
+SCAN COMPLETION: Full vulnerability assessment requires OWASP ZAP passive scanning
